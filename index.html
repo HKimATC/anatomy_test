@@ -76,7 +76,6 @@
             { id: 30, options: ["Flexor pollicis longus", "Supinator", "Flexor digitorum profundus", "Pronator quadratus", "Pronator teres"], ans: 4 }
         ];
 
-        // --- 교수용 뷰 컴포넌트 ---
         const AdminView = ({ onBack }) => {
             const [roomCode, setRoomCode] = useState('');
             const [students, setStudents] = useState({});
@@ -87,16 +86,13 @@
                 const code = Math.random().toString(36).substring(2, 6).toUpperCase();
                 setRoomCode(code);
                 
-                // 방 생성 및 상태 초기화
                 db.ref(`rooms/${code}/state`).set({ status: 'IDLE', qIndex: 0, timer: 0 });
                 
-                // 학생 데이터 리스너
                 const studentsRef = db.ref(`rooms/${code}/students`);
                 studentsRef.on('value', (snap) => {
                     setStudents(snap.val() || {});
                 });
 
-                // 관리자 UI 렌더링용 상태 리스너
                 const stateRef = db.ref(`rooms/${code}/state`);
                 stateRef.on('value', (snap) => {
                     if (snap.val()) setStateData(snap.val());
@@ -274,7 +270,6 @@
             );
         };
 
-        // --- 학생용 뷰 컴포넌트 ---
         const StudentView = ({ onBack }) => {
             const [joined, setJoined] = useState(false);
             const [roomCode, setRoomCode] = useState('');
@@ -300,16 +295,13 @@
                     return;
                 }
 
-                // 학생 정보 등록
                 await db.ref(`rooms/${upperCode}/students/${studentId}`).update({ name: name });
                 setJoined(true);
 
-                // 서버 상태 동기화 리스너
                 db.ref(`rooms/${upperCode}/state`).on('value', (snap) => {
                     if (snap.val()) setStateData(snap.val());
                 });
 
-                // 내 답안 동기화 리스너
                 db.ref(`rooms/${upperCode}/students/${studentId}/answers`).on('value', (snap) => {
                     setMyAnswers(snap.val() || {});
                 });
@@ -449,7 +441,6 @@
             const [pwdInput, setPwdInput] = useState('');
             const [pwdError, setPwdError] = useState('');
 
-            // 관리자 인증 비밀번호 설정
             const ADMIN_PASSWORD = "0625";
 
             const handleAdminLogin = () => {
