@@ -22,7 +22,26 @@
     <div id="root"></div>
 
     <script type="text/babel">
-        const { useState, useEffect, useRef, useCallback } = React;
+        const { useState, useEffect, useRef } = React;
+
+        // ==========================================
+        // 🚨 여기에 Firebase 콘솔에서 복사한 값을 덮어쓰세요!
+        // ==========================================
+        const firebaseConfig = {
+            apiKey: "AIzaSyCrWqeneLO6Fm8iG8JOsoF3PMyTDSfFAFI",
+            authDomain: "anatomy-test-2026.firebaseapp.com",
+            projectId: "anatomy-test-2026",
+            storageBucket: "anatomy-test-2026.firebasestorage.app",
+            messagingSenderId: "815754593334",
+            appId: "1:815754593334:web:e40d52c8ce7688cfa2c497",
+            measurementId: "G-Y11P070B4X"
+        };
+        // ==========================================
+
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
+        const db = firebase.database();
 
         const QUESTIONS = [
             { id: 1, options: ["Calcaneal tuberosity", "Sustentaculum tali", "Navicular tuberosity", "Medial malleolus", "Lateral process of talus"], ans: 2 },
